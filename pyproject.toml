@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "ma3-mcp"
+version = "0.1.0"
+description = "Python client for controlling grandMA3 via MCP shared file system"
+authors = ["Paul Hermann"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+python-dotenv = "^1.0.0"
+mcp = "^1.26.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^26.1.0"
+ruff = "^0.14.14"
+
+[tool.poetry.scripts]
+ma3-mcp = "ma3_mcp.server:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GMA3 DataVersion="0.8.84.0">
+    <UserPlugin Name="MCP Server" Version="1.0.0.0" Path="/mcp_server">
+        <ComponentLua Name="mcp_server" FileName="mcp_server.lua" />
+    </UserPlugin>
+</GMA3>

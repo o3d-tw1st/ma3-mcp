@@ -1,0 +1,32 @@
+{
+  "chat.mcp.discovery.enabled": {
+    "claude-desktop": true,
+    "windsurf": true,
+    "cursor-global": true,
+    "cursor-workspace": true
+  },
+  "mcp": {
+    "servers": {
+      "grandMA3": {
+        "command": "poetry",
+        "args": ["run", "python", "-m", "ma3_mcp.server"],
+        "cwd": "${workspaceFolder}"
+      }
+    }
+  },
+  "chat.tools.terminal.autoApprove": {
+    "./deploy.sh": true
+  },
+  // MA3 Terminal profiles for macOS
+  // Adjust the path if your MA3 installation is different
+  "terminal.integrated.profiles.osx": {
+    "MA3 Command Line": {
+      "path": "/Applications/grandMA3.app/Contents/MacOS/gma3_2.3.2/app_terminal",
+      "args": ["CMDLINE", "127.0.0.1"]
+    },
+    "MA3 System Monitor": {
+      "path": "/Applications/grandMA3.app/Contents/MacOS/gma3_2.3.2/app_terminal",
+      "args": ["SYSMON", "127.0.0.1"]
+    }
+  }
+}
