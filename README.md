@@ -145,7 +145,8 @@ MCP Client (Python)                    grandMA3 (Lua Plugin)
 - `ma3_playback` - Control sequence (go, back, off, top)
 - `ma3_executor_fader` - Set executor fader level
 - `ma3_executor_go` - Trigger executor actions
-- `ma3_assign_to_executor` - Assign sequence to executor
+- `ma3_assign_to_executor` - Assign sequence to executor (with optional name)
+- `ma3_label_executor` - Set or change executor label/name
 
 ### Inspection Tools
 - `ma3_get_sequence_overview` - List all cues in a sequence

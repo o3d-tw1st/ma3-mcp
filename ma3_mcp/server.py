@@ -38,6 +38,29 @@ def ma3_command(command: str) -> str:
     - "Store Cue 1 /NC" - Store cue (no confirmation)
     - "Go+ Sequence 1" - Next cue
     - "Assign Sequence 1 At Page 1.201" - Assign to executor
+    - "Label Page 1.201 \"Main Show\"" - Name an executor
+    - "Delete Cue 5 /NC" - Delete cue
+    - "Copy Cue 1 At Cue 10 /NC" - Copy cue
+    - "Move Cue 2 At Cue 5 /NC" - Move cue
+    - "Update Cue 1 /NC" - Update cue with programmer
+    - "Store Group 1 \"All Movers\" /NC" - Store selection as group
+    - "Off Executor 1.201" - Turn off executor
+    - "Clear" - Clear programmer
+    - "ClearAll" - Clear programmer and selection
+    - "Blind" / "Blind Off" - Toggle blind mode
+    - "Highlight" / "Highlight Off" - Toggle highlight
+    - "Park Fixture 1" / "Unpark Fixture 1" - Park/unpark
+    - "Freeze Executor 1.201" / "Unfreeze" - Freeze executor
+    - "BlackOut" / "BlackOut Off" - Master blackout
+    - "Store Preset 1.1 \"Color Red\" /NC" - Store preset
+    - "Call Preset 1.1" - Apply preset to selection
+    - "Stomp" - Remove active values from programmer
+    - "Oops" - Undo last action
+
+    Common flags:
+    - /NC - No Confirmation (skip popup)
+    - /Merge - Merge into existing
+    - /Overwrite - Overwrite existing
 
     Args:
         command: The MA3 command string
@@ -519,7 +542,7 @@ def ma3_playback(action: str, sequence: int = 1) -> str:
 
 @mcp.tool()
 def ma3_assign_to_executor(
-    object_type: str, object_number: int, page: int, executor: int
+    object_type: str, object_number: int, page: int, executor: int, name: str = ""
 ) -> str:
     """
     Assign an object to an executor.
@@ -529,11 +552,32 @@ def ma3_assign_to_executor(
         object_number: Object number
         page: Page number
         executor: Executor number (e.g., 201)
+        name: Optional name/label for the executor button
 
     Example:
         ma3_assign_to_executor("Sequence", 1, 1, 201)
+        ma3_assign_to_executor("Sequence", 1, 1, 201, "Main Show")
     """
-    return cmd(f"Assign {object_type} {object_number} At Page {page}.{executor}") or "Assigned"
+    result = cmd(f"Assign {object_type} {object_number} At Page {page}.{executor}")
+    if name:
+        cmd(f'Label Page {page}.{executor} "{name}"')
+    return result or "Assigned"
+
+
+@mcp.tool()
+def ma3_label_executor(page: int, executor: int, name: str) -> str:
+    """
+    Set or change the label/name of an executor.
+
+    Args:
+        page: Page number
+        executor: Executor number (e.g., 201)
+        name: The label text for the executor
+
+    Example:
+        ma3_label_executor(1, 201, "Main Show")
+    """
+    return cmd(f'Label Page {page}.{executor} "{name}"') or "Labeled"
 
 
 @mcp.tool()
