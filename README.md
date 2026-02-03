@@ -1,5 +1,9 @@
 # MA3-MCP
 
+> ⚠️ **Prototype / Proof of Concept**  
+> This project is an experimental implementation demonstrating AI-assisted lighting control via MCP.
+> It is not intended for production use. Use at your own risk.
+
 MCP server for controlling grandMA3 lighting consoles via AI assistants (Claude Desktop, VS Code Copilot, etc.).
 
 ## Features
@@ -184,4 +188,6 @@ See this forum thread for detailed instructions:
 
 ## License
 
-MIT
+This project is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
+
+**You may not use this software for commercial purposes.**
