@@ -7,16 +7,20 @@ mcp = FastMCP(
     "grandMA3",
     instructions="""
     Control grandMA3 lighting console via MCP.
-    
-    Available operations:
-    - Execute MA3 commands (fixtures, sequences, cues, playback)
-    - Set fixture attributes (dimmer, color, position, beam, gobo)
-    - Query fixtures, attributes, and programmer values
-    - Store and manage cues in sequences
-    - Read DMX output values
-    
+
+    CRITICAL SYNTAX RULES:
+    - Combine groups/fixtures with + not comma: "Group 1 + Group 3 At Full"
+    - Use Thru for ranges: "Group 19 Thru 24 At Full"
+    - Always append /NC to Store and Delete commands to avoid confirmation popups
+    - Group by NUMBER is more reliable than by name (use ma3_list_groups() to find numbers)
+
+    WORKFLOW FOR FIXTURE CONTROL:
+    1. ma3_select("Group 17")           → select fixtures
+    2. ma3_set_attribute("Dimmer", 100) → set values on selection
+    3. ma3_store_cue(1, name="Look")    → optionally store to cue
+
+    For one-off commands not covered by specific tools, use ma3_command().
     The MA3 console must be running with the MCP plugin active.
-    Use /NC flag with Store and Delete commands to avoid popups.
     """,
 )
 
@@ -29,44 +33,63 @@ mcp = FastMCP(
 @mcp.tool()
 def ma3_command(command: str) -> str:
     """
-    Execute any grandMA3 console command.
+    Execute any grandMA3 console command string directly.
 
-    Syntax examples:
-    - "Fixture 1 At 50" - Set fixture 1 dimmer to 50%
-    - "Fixture 1 Thru 10 At Full" - Range of fixtures to 100%
-    - "Group 1 At 50" - Control a group
-    - "Store Cue 1 /NC" - Store cue (no confirmation)
-    - "Go+ Sequence 1" - Next cue
-    - "Assign Sequence 1 At Page 1.201" - Assign to executor
-    - "Label Page 1.201 \"Main Show\"" - Name an executor
-    - "Delete Cue 5 /NC" - Delete cue
-    - "Copy Cue 1 At Cue 10 /NC" - Copy cue
-    - "Move Cue 2 At Cue 5 /NC" - Move cue
-    - "Update Cue 1 /NC" - Update cue with programmer
-    - "Store Group 1 \"All Movers\" /NC" - Store selection as group
-    - "Off Executor 1.201" - Turn off executor
-    - "Clear" - Clear programmer
-    - "ClearAll" - Clear programmer and selection
-    - "Blind" / "Blind Off" - Toggle blind mode
-    - "Highlight" / "Highlight Off" - Toggle highlight
-    - "Park Fixture 1" / "Unpark Fixture 1" - Park/unpark
-    - "Freeze Executor 1.201" / "Unfreeze" - Freeze executor
-    - "BlackOut" / "BlackOut Off" - Master blackout
-    - "Store Preset 1.1 \"Color Red\" /NC" - Store preset
-    - "Call Preset 1.1" - Apply preset to selection
-    - "Stomp" - Remove active values from programmer
-    - "Oops" - Undo last action
+    Use this for one-off commands not covered by other tools.
+    For fixture control workflows, prefer ma3_select() + ma3_set_attribute().
 
-    Common flags:
-    - /NC - No Confirmation (skip popup)
-    - /Merge - Merge into existing
-    - /Overwrite - Overwrite existing
+    SELECTION SYNTAX — use + (not comma) to combine:
+    - "Fixture 1 At 50"                   → fixture 1 dimmer to 50%
+    - "Fixture 1 Thru 10 At Full"         → fixtures 1-10 to 100%
+    - "Group 1 At 50"                     → group 1 dimmer to 50%
+    - "Group 1 + Group 3 At Full"         → groups 1 AND 3 to 100%
+    - "Group 19 Thru 24 At Full"          → groups 19,20,21,22,23,24 to 100%
+    - "Group 17 + Group 19 Thru 24 At Full" → group 17 AND 19-24 to 100%
+
+    CUE MANAGEMENT:
+    - "Store Cue 1 /NC"                   → store programmer to cue 1
+    - "Delete Cue 5 /NC"                  → delete cue 5
+    - "Copy Cue 1 At Cue 10 /NC"         → copy cue 1 to cue 10
+    - "Move Cue 2 At Cue 5 /NC"          → move cue 2 to position 5
+    - "Update Cue 1 /NC"                  → update cue 1 with programmer
+
+    PLAYBACK:
+    - "Go+ Sequence 1"                    → next cue in sequence 1
+    - "Go- Sequence 1"                    → previous cue
+    - "Off Sequence 1"                    → stop sequence 1
+
+    EXECUTORS:
+    - "Assign Sequence 1 At Page 1.201"  → assign sequence to executor
+    - "Label Page 1.201 \"Main Show\""   → name an executor
+    - "Off Executor 1.201"               → turn off executor
+
+    PROGRAMMER:
+    - "Clear"                             → clear programmer values
+    - "ClearAll"                          → clear programmer AND selection
+    - "Oops"                              → undo last action
+    - "Stomp"                             → remove active values from programmer
+
+    MODES:
+    - "Blind" / "Blind Off"             → toggle blind mode
+    - "Highlight" / "Highlight Off"     → toggle highlight
+    - "BlackOut" / "BlackOut Off"       → master blackout
+
+    PRESETS / GROUPS:
+    - "Store Preset 1.1 \"Color Red\" /NC" → store preset
+    - "Call Preset 1.1"                    → apply preset to selection
+    - "Store Group 1 \"All Movers\" /NC"   → store selection as group
+    - "Park Fixture 1" / "Unpark Fixture 1"
+
+    FLAGS (append to commands):
+    - /NC         → no confirmation popup (always use with Store/Delete)
+    - /Merge      → merge into existing object
+    - /Overwrite  → overwrite existing object
 
     Args:
-        command: The MA3 command string
+        command: MA3 command string
 
     Returns:
-        "Ok" on success, error message on failure
+        "Ok" or empty string on success, error message on failure
     """
     return cmd(command) or "Command executed"
 
@@ -78,7 +101,12 @@ def ma3_command(command: str) -> str:
 
 @mcp.tool()
 def ma3_list_fixtures() -> str:
-    """List all patched fixtures with IDs, names, and patch addresses."""
+    """
+    List all patched fixtures with their IDs (FID), names, and DMX patch addresses.
+
+    Returns JSON array. Use FID values with ma3_select() or ma3_set_attribute_single().
+    Run this first if you don't know which fixture IDs exist.
+    """
     return send("listfix:") or "No fixtures found"
 
 
@@ -147,10 +175,11 @@ def ma3_set_attribute_single(fixture_id: int, attribute: str, value: float) -> s
 @mcp.tool()
 def ma3_list_groups() -> str:
     """
-    List all fixture groups in the show.
-    
-    Groups are the most efficient way to select fixtures.
-    Use group names with ma3_select() for batch operations.
+    List all fixture groups with their numbers and names.
+
+    Returns JSON array with group number and name.
+    Use group NUMBER (not name) with ma3_select("Group 17") — it is faster and more reliable.
+    Run this first if you need to find which group number corresponds to a fixture type.
     """
     return send("listgroups:") or "No groups found"
 
@@ -177,25 +206,24 @@ def ma3_get_selection() -> str:
 @mcp.tool()
 def ma3_select(fixture_spec: str) -> str:
     """
-    Select fixtures, REPLACING the current selection.
-    
-    Use this before set_attribute/set_color to ensure only intended fixtures are modified.
-    
+    Select fixtures, REPLACING the current selection entirely.
+
+    ALWAYS call this before ma3_set_attribute() or ma3_set_color() to control
+    exactly which fixtures are modified.
+
     Args:
-        fixture_spec: What to select:
-            - "1" or "1 Thru 10" - fixture IDs
-            - "Group 1" or "Group 17" - group by number (RECOMMENDED)
-            - "Group \"ALL MAC\"" - group by name (use quotes)
-            - "Clear" - clear selection
-    
-    NOTE: Group selection by NUMBER is more reliable than by name.
-    Use ma3_list_groups() to find group numbers.
-    
-    Examples:
-        ma3_select("1 Thru 5")
-        ma3_select("Group 17")        # By number (preferred)
-        ma3_select("Group \"ALL MAC\"")  # By name (needs quotes)
-        ma3_select("Clear")
+        fixture_spec: Selection string — examples:
+            "1"                      → single fixture by FID
+            "1 Thru 10"             → fixture range
+            "Group 17"              → group by number (PREFERRED — use ma3_list_groups() to find numbers)
+            "Group \"ALL MAC\""     → group by name (requires double quotes around name)
+            "Group 17 + Group 19 Thru 24"  → multiple groups (use + not comma)
+            "Clear"                 → clear selection
+
+    NOTE: Group by NUMBER is more reliable than by name. Prefer it.
+
+    Returns:
+        Confirmation string or "Selection changed"
     """
     return send(f"select:{fixture_spec}") or "Selection changed"
 
@@ -203,9 +231,11 @@ def ma3_select(fixture_spec: str) -> str:
 @mcp.tool()
 def ma3_list_programmer() -> str:
     """
-    List all fixtures and values currently in the programmer.
-    
-    Shows what will be stored when you call store_cue.
+    List fixtures currently in the programmer (summary — no attribute values).
+
+    Shows which fixtures have programmer values. For actual values per attribute,
+    use ma3_list_programmer_detailed() instead.
+    The programmer contents are what gets stored when you call ma3_store_cue().
     """
     return send("listprog:") or "Programmer is empty"
 
@@ -219,17 +249,24 @@ def ma3_clear_programmer() -> str:
 @mcp.tool()
 def ma3_set_attribute(attribute: str, value: float) -> str:
     """
-    Set an attribute on the CURRENTLY SELECTED fixtures.
-    
-    IMPORTANT: Uses current selection! Call ma3_select() first if needed.
-    
+    Set an attribute value on the CURRENTLY SELECTED fixtures.
+
+    IMPORTANT: Operates on current selection only. Call ma3_select() first.
+
     Args:
-        attribute: Attribute name (Dimmer, Pan, Tilt, ColorRGB_R, etc.)
-        value: Value to set (0-100)
-    
-    Example workflow:
-        1. ma3_select("Group ALL MAC")  # Select fixtures
-        2. ma3_set_attribute("Dimmer", 50)  # Set dimmer on selection
+        attribute: Attribute name — common values:
+            "Dimmer"      → brightness (0=off, 100=full)
+            "Pan"         → horizontal position (0-100, 50=center)
+            "Tilt"        → vertical position (0-100, 50=center)
+            "ColorRGB_R"  → red channel
+            "ColorRGB_G"  → green channel
+            "ColorRGB_B"  → blue channel
+            Use ma3_list_attributes(fixture_id) to discover all attributes.
+        value: 0-100
+
+    Workflow:
+        ma3_select("Group 17")         # 1. select fixtures
+        ma3_set_attribute("Dimmer", 100)  # 2. set attribute on selection
     """
     return send(f"setattr:{attribute} {value}") or "Failed"
 
@@ -238,15 +275,21 @@ def ma3_set_attribute(attribute: str, value: float) -> str:
 def ma3_set_color(red: float, green: float, blue: float) -> str:
     """
     Set RGB color on the CURRENTLY SELECTED fixtures.
-    
-    IMPORTANT: Uses current selection! Call ma3_select() first if needed.
-    
+
+    IMPORTANT: Operates on current selection only. Call ma3_select() first.
+
     Args:
-        red, green, blue: Color values (0-100)
-    
-    Example workflow:
-        1. ma3_select("Group ALL CAMEO")
-        2. ma3_set_color(100, 0, 50)  # Magenta
+        red: 0-100 (0=none, 100=full red)
+        green: 0-100
+        blue: 0-100
+
+    Examples: (100,0,0)=red, (0,100,0)=green, (0,0,100)=blue,
+              (100,100,0)=yellow, (100,0,100)=magenta, (0,100,100)=cyan,
+              (100,100,100)=white, (0,0,0)=off
+
+    Workflow:
+        ma3_select("Group 5")          # 1. select fixtures
+        ma3_set_color(100, 0, 100)     # 2. set magenta on selection
     """
     return send(f"setcolor:{red} {green} {blue}") or "Failed"
 
@@ -255,9 +298,12 @@ def ma3_set_color(red: float, green: float, blue: float) -> str:
 def ma3_set_position(pan: float, tilt: float) -> str:
     """
     Set pan/tilt on the CURRENTLY SELECTED fixtures.
-    
+
+    IMPORTANT: Operates on current selection only. Call ma3_select() first.
+
     Args:
-        pan, tilt: Values (0-100, 50 = center)
+        pan: 0-100 (50 = center)
+        tilt: 0-100 (50 = center)
     """
     send(f"setattr:Pan {pan}")
     return send(f"setattr:Tilt {tilt}") or "Position set"
@@ -523,11 +569,16 @@ def ma3_goto_cue(cue: float, sequence: int = 0) -> str:
 @mcp.tool()
 def ma3_playback(action: str, sequence: int = 1) -> str:
     """
-    Control sequence playback.
+    Control sequence playback by sequence number.
 
     Args:
-        action: "go"/"next", "back"/"prev", "off", "top", "pause"
-        sequence: Sequence number
+        action: One of:
+            "go" or "next"  → advance to next cue (Go+)
+            "back" or "prev"→ go to previous cue (Go-)
+            "off"           → stop/release sequence
+            "top"           → jump to first cue
+            "pause"         → pause fading
+        sequence: Sequence number (default 1)
     """
     actions = {
         "go": "Go+", "next": "Go+",
@@ -582,22 +633,30 @@ def ma3_label_executor(page: int, executor: int, name: str) -> str:
 
 @mcp.tool()
 def ma3_list_executors(page: int = 1) -> str:
-    """List all executors on a page with their assigned objects."""
+    """
+    List all executors on a page with their numbers, labels, and assigned objects.
+
+    Args:
+        page: Page number (default 1)
+
+    Use this to find executor numbers before calling ma3_executor_fader() or ma3_executor_go().
+    """
     return send(f"listexec:{page}") or f"Could not list page {page}"
 
 
 @mcp.tool()
 def ma3_executor_fader(page: int, executor: int, value: float) -> str:
     """
-    Set executor master fader level.
-    
+    Set the master fader level of an executor.
+
     Args:
         page: Page number (e.g., 1)
-        executor: Executor number (e.g., 201)
-        value: Fader level (0-100)
-        
+        executor: Executor number (e.g., 201) — use ma3_list_executors() to find numbers
+        value: Fader level 0-100 (0=off, 100=full)
+
     Example:
-        ma3_executor_fader(1, 201, 100)  # Set Page 1 Exec 201 to 100%
+        ma3_executor_fader(1, 201, 100)  → Page 1 Executor 201 to 100%
+        ma3_executor_fader(1, 201, 0)    → fade out executor
     """
     return send(f"execfader:{page}.{executor} {value}") or "Failed"
 
@@ -605,16 +664,23 @@ def ma3_executor_fader(page: int, executor: int, value: float) -> str:
 @mcp.tool()
 def ma3_executor_go(page: int, executor: int, action: str = "go") -> str:
     """
-    Control executor playback.
-    
+    Trigger a button action on an executor.
+
     Args:
         page: Page number
-        executor: Executor number
-        action: "go", "off", "top", "pause", "toggle", "on", "flash"
-        
+        executor: Executor number — use ma3_list_executors() to find numbers
+        action: Button action — one of:
+            "go"     → advance to next cue (default)
+            "off"    → release/stop executor
+            "top"    → go to first cue
+            "pause"  → pause fading
+            "toggle" → toggle on/off
+            "on"     → activate executor
+            "flash"  → flash (on while held, then off)
+
     Example:
-        ma3_executor_go(1, 201, "go")    # Trigger Go on executor
-        ma3_executor_go(1, 201, "off")   # Turn off executor
+        ma3_executor_go(1, 201, "go")    → next cue on executor 201
+        ma3_executor_go(1, 201, "off")   → stop executor 201
     """
     return send(f"execgo:{page}.{executor} {action}") or "Failed"
 
@@ -622,17 +688,27 @@ def ma3_executor_go(page: int, executor: int, action: str = "go") -> str:
 @mcp.tool()
 def ma3_get_current_cue(sequence: int = 0) -> str:
     """
-    Get current cue position of a sequence.
+    Get the current cue position (which cue is active) in a sequence.
 
     Args:
-        sequence: Sequence number (0 = selected sequence)
+        sequence: Sequence number (0 = currently selected sequence)
+
+    Returns:
+        Current cue number and name, or error if sequence not running.
     """
     return send(f"getcue:{sequence}") or "Could not get cue"
 
 
 @mcp.tool()
 def ma3_get_sequence_status(sequence: int = 1) -> str:
-    """Get detailed status of a sequence including playback state."""
+    """
+    Get detailed playback status of a sequence (playing/stopped, active cue, fader level).
+
+    Args:
+        sequence: Sequence number (default 1)
+
+    Use ma3_get_sequence_overview() to see all cues in a sequence instead.
+    """
     return send(f"seqstatus:{sequence}") or f"Could not get sequence {sequence}"
 
 # =============================================================================
@@ -643,13 +719,16 @@ def ma3_get_sequence_status(sequence: int = 1) -> str:
 @mcp.tool()
 def ma3_query(address: str) -> str:
     """
-    Query an MA3 object by address.
+    Query basic info (name, class, child count) for any MA3 object by address.
 
     Args:
-        address: Object address (e.g., "Sequence 1", "Page 1.201")
+        address: Object address, e.g.:
+            "Sequence 1"       → sequence info
+            "Page 1.201"       → executor info
+            "Group 5"          → group info
+            "Sequence 1 Cue 3" → cue info
 
-    Returns:
-        Object info with name, class, children
+    For all property values use ma3_get_all_properties(). For cue list use ma3_get_sequence_overview().
     """
     return send(f"?{address}") or f"Object not found: {address}"
 
@@ -702,7 +781,15 @@ def ma3_get_all_properties(address: str) -> str:
 
 @mcp.tool()
 def ma3_list_children(address: str) -> str:
-    """List children of an MA3 object."""
+    """
+    List the direct children of an MA3 object.
+
+    Args:
+        address: Object address (e.g., "Sequence 1", "Page 1")
+
+    Returns JSON array of child objects with their names and numbers.
+    Useful for exploring the MA3 object tree.
+    """
     return send(f"children:{address}") or f"No children for {address}"
 
 
