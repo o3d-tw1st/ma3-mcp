@@ -4,6 +4,10 @@ version = "0.1.0"
 description = "Python client for controlling grandMA3 via MCP shared file system"
 authors = ["Paul Hermann"]
 readme = "README.md"
+license = "AGPL-3.0-or-later"
+classifiers = [
+    "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+]
 
 [tool.poetry.dependencies]
 python = "^3.11"

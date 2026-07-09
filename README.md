@@ -189,6 +189,6 @@ See this forum thread for detailed instructions:
 
 ## License
 
-This project is licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) (Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International).
+This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-or-later).
 
-**You may not use this software for commercial purposes.**
+If you run a modified version of this software to provide a service over a network, you must make the complete corresponding source code available to the users of that service.
