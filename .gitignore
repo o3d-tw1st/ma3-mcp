@@ -29,3 +29,7 @@ htmlcov/
 
 # Poetry
 poetry.lock
+
+# Storan generated exports (keep .gitkeep)
+storan/exports/*
+!storan/exports/.gitkeep
