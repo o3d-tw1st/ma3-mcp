@@ -1,0 +1,363 @@
+chan,address,fixture_type,label
+1,1,Dimmer,
+2,2,Dimmer,
+3,3,Dimmer,
+4,4,Dimmer,
+5,5,Dimmer,
+6,6,Dimmer,
+7,7,Dimmer,
+8,8,Dimmer,
+9,9,Dimmer,
+10,10,Dimmer,
+11,11,Dimmer,
+12,12,Dimmer,
+13,13,Dimmer,
+14,14,Dimmer,
+15,15,Dimmer,
+16,16,Dimmer,
+17,17,Dimmer,
+18,18,Dimmer,
+19,19,Dimmer,
+20,20,Dimmer,
+21,21,Dimmer,
+22,22,Dimmer,
+23,23,Dimmer,
+24,24,Dimmer,
+25,25,Dimmer,
+26,26,Dimmer,
+27,27,Dimmer,
+28,28,Dimmer,
+29,29,Dimmer,
+30,30,Dimmer,
+31,31,Dimmer,
+32,32,Dimmer,
+33,33,Dimmer,
+34,34,Dimmer,
+35,35,Dimmer,
+36,36,Dimmer,
+37,37,Dimmer,
+38,38,Dimmer,
+39,39,Dimmer,
+40,40,Dimmer,
+41,41,Dimmer,
+42,42,Dimmer,
+43,43,Dimmer,
+44,44,Dimmer,
+47,47,Dimmer,
+48,48,Dimmer,
+49,49,Dimmer,
+50,50,Dimmer,
+53,53,Dimmer,
+54,54,Dimmer,
+55,55,Dimmer,
+56,56,Dimmer,
+59,59,Dimmer,
+60,60,Dimmer,
+61,61,Dimmer,
+62,62,Dimmer,
+65,65,Dimmer,
+66,66,Dimmer,
+67,67,Dimmer,
+68,68,Dimmer,
+69,69,Dimmer,
+70,70,Dimmer,
+71,71,Dimmer,
+72,72,Dimmer,
+73,73,Dimmer,
+74,74,Dimmer,
+75,75,Dimmer,
+76,76,Dimmer,
+77,77,Dimmer,
+78,78,Dimmer,
+79,79,Dimmer,
+80,80,Dimmer,
+81,81,Dimmer,
+82,82,Dimmer,
+83,83,Dimmer,
+84,84,Dimmer,
+85,85,Dimmer,
+86,86,Dimmer,
+87,87,Dimmer,
+88,88,Dimmer,
+89,89,Dimmer,
+90,90,Dimmer,
+91,91,Dimmer,
+92,92,Dimmer,
+93,93,Dimmer,
+94,94,Dimmer,
+95,95,Dimmer,
+96,96,Dimmer,
+97,97,Dimmer,
+98,98,Dimmer,
+99,99,Dimmer,
+100,100,Dimmer,
+101,101,Dimmer,
+102,102,Dimmer,
+103,103,Dimmer,
+104,104,Dimmer,
+105,105,Dimmer,
+106,106,Dimmer,
+107,107,Dimmer,
+108,108,Dimmer,
+109,109,Dimmer,
+110,110,Dimmer,
+111,111,Dimmer,
+112,112,Dimmer,
+113,113,Dimmer,
+114,114,Dimmer,
+115,115,Dimmer,
+116,116,Dimmer,
+117,117,Dimmer,
+118,118,Dimmer,
+119,119,Dimmer,
+120,120,Dimmer,
+121,121,Dimmer,
+122,122,Dimmer,
+123,123,Dimmer,
+124,124,Dimmer,
+125,125,Dimmer,
+126,126,Dimmer,
+127,127,Dimmer,
+128,128,Dimmer,
+129,129,Dimmer,
+130,130,Dimmer,
+131,131,Dimmer,
+132,132,Dimmer,
+133,133,Dimmer,
+134,134,Dimmer,
+135,135,Dimmer,
+136,136,Dimmer,
+137,137,Dimmer,
+138,138,Dimmer,
+139,139,Dimmer,
+140,140,Dimmer,
+141,141,Dimmer,
+142,142,Dimmer,
+143,143,Dimmer,
+144,144,Dimmer,
+145,145,Dimmer,
+146,146,Dimmer,
+147,147,Dimmer,
+148,148,Dimmer,
+149,149,Dimmer,
+150,150,Dimmer,
+151,151,Dimmer,
+152,152,Dimmer,
+153,153,Dimmer,
+154,154,Dimmer,
+155,155,Dimmer,
+156,156,Dimmer,
+157,157,Dimmer,
+158,158,Dimmer,
+159,159,Dimmer,
+160,160,Dimmer,
+161,161,Dimmer,
+162,162,Dimmer,
+163,163,Dimmer,
+164,164,Dimmer,
+165,165,Dimmer,
+166,166,Dimmer,
+167,167,Dimmer,
+168,168,Dimmer,
+169,169,Dimmer,
+170,170,Dimmer,
+171,171,Dimmer,
+172,172,Dimmer,
+173,173,Dimmer,
+174,174,Dimmer,
+175,175,Dimmer,
+176,176,Dimmer,
+177,177,Dimmer,
+178,178,Dimmer,
+179,179,Dimmer,
+180,180,Dimmer,
+181,181,Dimmer,
+182,182,Dimmer,
+183,183,Dimmer,
+184,184,Dimmer,
+185,185,Dimmer,
+186,186,Dimmer,
+187,187,Dimmer,
+188,188,Dimmer,
+189,189,Dimmer,
+190,190,Dimmer,
+191,191,Dimmer,
+192,192,Dimmer,
+193,193,Dimmer,
+194,194,Dimmer,
+195,195,Dimmer,
+196,196,Dimmer,
+197,197,Dimmer,
+198,198,Dimmer,
+199,199,Dimmer,
+200,200,Dimmer,
+201,201,Dimmer,
+202,202,Dimmer,
+203,203,Dimmer,
+204,204,Dimmer,
+205,205,Dimmer,
+206,206,Dimmer,
+207,207,Dimmer,
+208,208,Dimmer,
+209,209,Dimmer,
+210,210,Dimmer,
+211,211,Dimmer,
+212,212,Dimmer,
+213,213,Dimmer,
+214,214,Dimmer,
+215,215,Dimmer,
+216,216,Dimmer,
+217,217,Dimmer,
+218,218,Dimmer,
+219,219,Dimmer,
+220,220,Dimmer,
+221,221,Dimmer,
+222,222,Dimmer,
+223,223,Dimmer,
+224,224,Dimmer,
+225,225,Dimmer,
+226,226,Dimmer,
+227,227,Dimmer,
+228,228,Dimmer,
+229,229,Dimmer,
+230,230,Dimmer,
+231,231,Dimmer,
+232,232,Dimmer,
+233,233,Dimmer,
+234,234,Dimmer,
+235,235,Dimmer,
+236,236,Dimmer,
+237,237,Dimmer,
+238,238,Dimmer,
+239,239,Dimmer,
+240,240,Dimmer,
+241,241,Dimmer,
+242,242,Dimmer,
+243,243,Dimmer,
+244,244,Dimmer,
+245,245,Dimmer,
+246,246,Dimmer,
+247,247,Dimmer,
+248,248,Dimmer,
+249,249,Dimmer,
+250,250,Dimmer,
+251,251,Dimmer,
+252,252,Dimmer,
+253,253,Dimmer,
+254,254,Dimmer,
+255,255,Dimmer,
+256,256,Dimmer,
+257,257,Dimmer,
+258,258,Dimmer,
+259,259,Dimmer,
+260,260,Dimmer,
+261,261,Dimmer,
+262,262,Dimmer,
+263,263,Dimmer,
+264,264,Dimmer,
+301,3/1-23,Sparx 12 M3 Pixel Disabled,LX1
+302,3/24-46,Sparx 12 M3 Pixel Disabled,LX1
+303,3/47-69,Sparx 12 M3 Pixel Disabled,LX1
+304,3/70-92,Sparx 12 M3 Pixel Disabled,LX1
+305,3/93-115,Sparx 12 M3 Pixel Disabled,LX2
+306,3/116-138,Sparx 12 M3 Pixel Disabled,LX2
+307,3/139-161,Sparx 12 M3 Pixel Disabled,LX2
+308,3/162-184,Sparx 12 M3 Pixel Disabled,LX2
+309,3/185-207,Sparx 12 M3 Pixel Disabled,LX3
+310,3/208-230,Sparx 12 M3 Pixel Disabled,LX3
+311,3/231-253,Sparx 12 M3 Pixel Disabled,LX3
+312,3/254-276,Sparx 12 M3 Pixel Disabled,LX3
+321,3/277-318,P12 Profile HC M1,LX1
+322,3/319-360,P12 Profile HC M1,LX1
+323,3/361-402,P12 Profile HC M1,LX1
+324,3/403-444,P12 Profile HC M1,LX1
+325,3/445-486,P12 Profile HC M1,LX1
+326,4/1-42,P12 Profile HC M1,LX2
+327,4/43-84,P12 Profile HC M1,LX2
+328,4/85-126,P12 Profile HC M1,LX2
+329,4/127-168,P12 Profile HC M1,LX2
+330,4/169-210,P12 Profile HC M1,LX2
+331,4/211-252,P12 Profile HC M1,LX2
+332,4/253-294,P12 Profile HC M1,LX2
+333,4/295-336,P12 Profile HC M1,LX3
+334,4/337-378,P12 Profile HC M1,LX3
+341,4/379-407,P9 Beamspot HP M1,LX2
+342,4/408-436,P9 Beamspot HP M1,LX2
+343,4/437-465,P9 Beamspot HP M1,LX2
+344,4/466-494,P9 Beamspot HP M1,LX2
+345,5/1-29,P9 Beamspot HP M1,LX3
+346,5/30-58,P9 Beamspot HP M1,LX3
+347,5/59-87,P9 Beamspot HP M1,LX3
+348,5/88-116,P9 Beamspot HP M1,LX3
+351,8/1-40,P10 Profile HC M1,Mantel
+352,8/41-80,P10 Profile HC M1,Mantel
+353,8/81-120,P10 Profile HC M1,Mantel
+354,8/121-160,P10 Profile HC M1,Mantel
+355,8/161-200,P10 Profile HC M1,Mantel
+361,5/309-318,ColorSource Fresnel V Direct,Mantel
+362,5/319-328,ColorSource Fresnel V Direct,Mantel
+363,5/329-338,ColorSource Fresnel V Direct,Mantel
+364,5/339-348,ColorSource Fresnel V Direct,Mantel
+411,5/117-128,S4 LED S3 Lustr X8 Direct,SR1
+412,5/129-140,S4 LED S3 Lustr X8 Direct,SR1
+413,45,Parcan,SR1
+421,5/213-224,S4 LED S3 Lustr X8 Direct,SL1
+422,5/225-236,S4 LED S3 Lustr X8 Direct,SL1
+423,46,Parcan,SL1
+431,5/141-152,S4 LED S3 Lustr X8 Direct,SR2
+432,5/153-164,S4 LED S3 Lustr X8 Direct,SR2
+433,51,Parcan,SR2
+441,5/237-248,S4 LED S3 Lustr X8 Direct,SL2
+442,5/249-260,S4 LED S3 Lustr X8 Direct,SL2
+443,52,Parcan,SL2
+451,5/165-176,S4 LED S3 Lustr X8 Direct,SR3
+452,5/177-188,S4 LED S3 Lustr X8 Direct,SR3
+453,57,Parcan,SR3
+461,5/261-272,S4 LED S3 Lustr X8 Direct,SL3
+462,5/273-284,S4 LED S3 Lustr X8 Direct,SL3
+463,58,Parcan,SL3
+471,5/189-200,S4 LED S3 Lustr X8 Direct,SR4
+472,5/201-212,S4 LED S3 Lustr X8 Direct,SR4
+473,63,Parcan,SR4
+481,5/285-296,S4 LED S3 Lustr X8 Direct,SL4
+482,5/297-308,S4 LED S3 Lustr X8 Direct,SL4
+483,64,Parcan,SL4
+491,,S4 LED S3 Lustr X8 Direct,Future Booms
+492,,S4 LED S3 Lustr X8 Direct,Future Booms
+496,,S4 LED S3 Lustr X8 Direct,Future Booms
+497,,S4 LED S3 Lustr X8 Direct,Future Booms
+501,2/1-40,P10 Profile HC M1,Old FoH
+502,2/41-80,P10 Profile HC M1,Old FoH
+503,2/81-124,P15 Profile HP M1,FoH Upper Left
+504,2/125-168,P15 Profile HP M1,FoH Upper Right
+511,265-276,S4 LED S3 Lustr X8 Direct,
+512,277-288,S4 LED S3 Lustr X8 Direct,
+513,289-300,S4 LED S3 Lustr X8 Direct,
+514,301-312,S4 LED S3 Lustr X8 Direct,
+515,313-324,S4 LED S3 Lustr X8 Direct,
+516,325-336,S4 LED S3 Lustr X8 Direct,
+521,337-348,S4 LED S3 Lustr X8 Direct,
+522,349-360,S4 LED S3 Lustr X8 Direct,
+523,361-372,S4 LED S3 Lustr X8 Direct,
+524,373-384,S4 LED S3 Lustr X8 Direct,
+525,385-396,S4 LED S3 Lustr X8 Direct,
+526,397-408,S4 LED S3 Lustr X8 Direct,
+551,2/477-481,ColorSource PAR 5ch,
+552,2/482-486,ColorSource PAR 5ch,
+553,2/487-491,ColorSource PAR 5ch,
+554,2/492-496,ColorSource PAR 5ch,
+601,2/169-212,P15 Profile HC M1,Club Truss
+602,2/213-256,P15 Profile HC M1,Club Truss
+603,2/257-300,P15 Profile HC M1,Club Truss
+604,2/301-344,P15 Profile HC M1,Club Truss
+605,2/345-388,P15 Profile HC M1,Club Truss
+611,2/389-410,Robin 800 LEDWash M2,Club Truss
+612,2/411-432,Robin 800 LEDWash M2,Club Truss
+613,2/433-454,Robin 800 LEDWash M2,Club Truss
+614,2/455-476,Robin 800 LEDWash M2,Club Truss
+1001,507,House Light,House
+1002,508,House Light,House
+1003,509,House Light,House
+1004,510,House Light,House
+1011,7/507-509,ATMe,Haze
+1012,7/510,theFAN 1ch,Fan
