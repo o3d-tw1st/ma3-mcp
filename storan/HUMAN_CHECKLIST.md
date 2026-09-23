@@ -2,10 +2,31 @@
 
 Automation stops here. **No SendKeys** — operator clicks in onPC.
 
+## Reboot onPC without Menu → Plugins (one-time setup)
+
+MA3 2.3.2 has no UserPlugin Autostart. Cold-start uses `RUNPLUGIN="MCP Server.xml"-1` plus a one-shot autoload file.
+
+1. Deploy plugin to both `lib_plugins` and `gma3_library` (install script does this):
+   ```powershell
+   .\storan\scripts\install-windows.ps1
+   ```
+2. After reboot, launch onPC + MCP automatically:
+   ```powershell
+   .\storan\scripts\start-onpc-with-mcp.ps1
+   ```
+   This writes `C:\ProgramData\MA3\mcp_autoload.txt` = `go`, starts the NetBird HTTP bridge (if `run_netbird_http.py` is present), starts onPC with `RUNPLUGIN`, and watches until the plugin writes `done`.
+3. Verify IPC:
+   ```powershell
+   .\storan\scripts\self-test-ipc.ps1
+   ```
+   Expect `Version` (not `None`) from `ma3_comm` / `ma3_robust`.
+
+**Manual alternative:** write `go` to `C:\ProgramData\MA3\mcp_autoload.txt`, start onPC with `RUNPLUGIN="MCP Server.xml"-1`, or run `ReloadAllPlugins` then `Call Plugin "MCP Server"` if onPC is already open.
+
 ## Before import
 
 1. onPC show open: **2026 Base Stora Teatern** (or current house file).
-2. MCP plugin running (`Menu → Plugins → MCP Server` started, or `start-onpc-with-mcp.ps1`).
+2. MCP plugin running (`start-onpc-with-mcp.ps1` or manual start above).
 3. IPC self-test green: `poetry run python storan/ma3_robust.py` → `Version` not `None`.
 4. Close unrelated modal dialogs (patch wizard, backup prompts).
 

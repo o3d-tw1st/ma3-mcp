@@ -12,7 +12,13 @@ git pull
 .\storan\scripts\self-test-ipc.ps1
 ```
 
-NetBird HTTP bridge (`run_netbird_http.py`) stays separate — point it at the same IPC dir (`C:\ProgramData\MA3`).
+### Reboot without human Menu → Plugins
+
+1. `install-windows.ps1` deploys `mcp_server.lua` + `MCP Server.xml` to **both** `lib_plugins\mcp_server` and `gma3_library\datapools\plugins\mcp_server`.
+2. `start-onpc-with-mcp.ps1` writes `go` to `C:\ProgramData\MA3\mcp_autoload.txt`, starts `run_netbird_http.py` (NetBird HTTP bridge on port 8765 by default), launches onPC with `RUNPLUGIN="MCP Server.xml"-1`, and waits for `mcp_autoload.txt` = `done`.
+3. `self-test-ipc.ps1` confirms `Version` via file IPC.
+
+NetBird HTTP bridge uses the same IPC dir (`MA3_IPC_DIR`, default `C:\ProgramData\MA3`). Override port with `MA3_HTTP_PORT`.
 
 ## Dry-run / offline plan (no onPC required)
 
