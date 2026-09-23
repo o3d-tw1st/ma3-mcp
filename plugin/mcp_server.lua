@@ -57,6 +57,7 @@ end
 local IPC_DIR = getIpcDirectory()
 local COMMAND_FILE = IPC_DIR .. "/mcp_command.txt"
 local RESPONSE_FILE = IPC_DIR .. "/mcp_response.txt"
+local AUTOLOAD_FILE = IPC_DIR .. "/mcp_autoload.txt"
 local lastRequestId = ""
 
 local function log(msg)
@@ -2347,10 +2348,35 @@ end
 
 
 -- =============================================================================
+-- COLD-START AUTOLOAD (WS1 / onPC reboot without Menu -> Plugins)
+-- =============================================================================
+-- MA3 2.3.2 has no UserPlugin Autostart. Official cold-start:
+--   RUNPLUGIN="MCP Server.xml"-1
+-- Operator or start-onpc-with-mcp.ps1 writes "go" to mcp_autoload.txt before launch.
+-- This one-shot hook acknowledges cold start; RUNPLUGIN already loaded this component.
+
+local function tryAutoload()
+    local raw = readFile(AUTOLOAD_FILE)
+    if not raw or raw == "" then
+        return
+    end
+
+    local token = raw:match("^%s*(%S+)")
+    if token ~= "go" then
+        return
+    end
+
+    writeFile(AUTOLOAD_FILE, "done\n")
+    log("autoload go -> MCP plugin running (cold start via RUNPLUGIN)")
+end
+
+-- =============================================================================
 -- MAIN PLUGIN ENTRY POINT
 -- =============================================================================
 
 local function Main(display_handle, argument)
+    tryAutoload()
+
     Printf("===================================")
     Printf("MCP Shared File Plugin started")
     Printf("Command file: " .. COMMAND_FILE)
