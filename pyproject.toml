@@ -20,6 +20,7 @@ ruff = "^0.14.14"
 
 [tool.poetry.scripts]
 ma3-mcp = "ma3_mcp.server:main"
+run-netbird-http = "run_netbird_http:main"
 
 [build-system]
 requires = ["poetry-core"]
