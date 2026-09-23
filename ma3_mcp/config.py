@@ -82,9 +82,12 @@ def get_ma3_plugin_dir() -> Optional[Path]:
                 if plugin_dir.parent.exists():
                     return plugin_dir
     elif system == "Windows":
-        # Windows default paths
-        for base in [Path("C:/ProgramData/MALightingTechnology"),
-                     home / "Documents/MALightingTechnology"]:
+        # Windows default paths (onPC often uses %USERPROFILE%\MALightingTechnology)
+        for base in [
+            home / "MALightingTechnology",
+            Path("C:/ProgramData/MALightingTechnology"),
+            home / "Documents/MALightingTechnology",
+        ]:
             if base.exists():
                 gma3_dirs = sorted(base.glob("gma3_*"), reverse=True)
                 for gma3_dir in gma3_dirs:

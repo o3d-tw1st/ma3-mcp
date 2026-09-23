@@ -187,6 +187,10 @@ For the deploy script to hot-reload the plugin, you need to configure the plugin
 See this forum thread for detailed instructions:
 - [grandMA3 VSCode Workflow](https://forum.malighting.com/forum/thread/68211-grandma3-vscode-workflow/)
 
+## Stora Teatern (Windows / WS1)
+
+House-file finish automation, Windows install scripts, and robust IPC helpers live in [`storan/`](storan/README.md).
+
 ## License
 
 This project is licensed under the [GNU Affero General Public License v3.0](LICENSE) (AGPL-3.0-or-later).
