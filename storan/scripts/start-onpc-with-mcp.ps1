@@ -4,6 +4,16 @@ $ErrorActionPreference = 'Stop'
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Resolve-Path (Join-Path $ScriptDir '..\..')
 
+function Test-Ma3HttpBridge {
+    param([string]$Port)
+    try {
+        $health = Invoke-RestMethod -Uri "http://localhost:$Port/health" -TimeoutSec 2
+        return ($health.status -eq 'ok')
+    } catch {
+        return $false
+    }
+}
+
 function Start-NetbirdHttpBridge {
     $bridge = Join-Path $RepoRoot 'run_netbird_http.py'
     if (-not (Test-Path $bridge)) {
@@ -12,10 +22,14 @@ function Start-NetbirdHttpBridge {
     }
 
     $port = if ($env:MA3_HTTP_PORT) { $env:MA3_HTTP_PORT } else { '8765' }
+    if (Test-Ma3HttpBridge -Port $port) {
+        Write-Host "MA3 HTTP bridge already healthy on port $port"
+        return
+    }
+
     $existing = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue
     if ($existing) {
-        Write-Host "NetBird HTTP bridge already listening on port $port"
-        return
+        Write-Error "Port $port is in use by another process (not MA3 HTTP bridge). Stop it or set MA3_HTTP_PORT."
     }
 
     Write-Host "Starting NetBird HTTP bridge on port $port..."
